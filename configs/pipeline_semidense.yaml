@@ -1,0 +1,50 @@
+# Semi-Dense Pipeline Configuration
+# Semi-Dense Matcher → Mapper
+# 
+# Reference: "Efficient LoFTR: Semi-Dense Local Feature Matching with Sparse-Like Speed"
+#            by Yifan Wang, Xingyi He, Sida Peng, Dongli Tan, and Xiaowei Zhou (CVPR 2024)
+
+pipeline:
+  type: "semi_dense"  # Pipeline type
+  
+  semi_dense:
+    matcher: "loftr"  # Options: loftr, efficient_loftr (semi-dense), lightglue, superglue
+    mapper: "homography"  # Options: homography, affine, learned
+
+# Matcher configurations (Semi-Dense DL-based)
+matcher:
+  loftr:
+    model_type: "outdoor"  # Options: outdoor, indoor
+    match_threshold: 0.2  # LoFTR produces semi-dense correspondences
+  
+  efficient_loftr:
+    model_type: "outdoor"  # Options: outdoor, indoor
+    match_threshold: 0.2
+    # Efficient LoFTR: Semi-Dense Local Feature Matching with Sparse-Like Speed (CVPR 2024)
+    # Optimized LoFTR with faster inference
+  
+  lightglue:
+    match_threshold: 0.2
+  
+  superglue:
+    match_threshold: 0.2
+
+# Mapper configurations
+mapper:
+  homography:
+    ransac_threshold: 3.0
+    ransac_confidence: 0.995
+    ransac_max_iters: 2000
+    min_inlier_ratio: 0.2
+  
+  affine:
+    ransac_threshold: 3.0
+    ransac_confidence: 0.995
+    ransac_max_iters: 2000
+    min_inlier_ratio: 0.2
+  
+  learned:
+    input_dim: 256
+    hidden_dim: 128
+    device: "cuda"
+

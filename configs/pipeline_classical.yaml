@@ -1,0 +1,55 @@
+# Classical Pipeline Configuration
+# Sparse Feature-Based: Extractor → Matcher → Mapper
+
+pipeline:
+  type: "classical"  # Pipeline type
+  
+  classical:
+    extractor: "sift"  # Options: sift, orb, superpoint
+    matcher: "brute_force"  # Options: brute_force, flann
+    mapper: "homography"  # Options: homography, affine
+
+# Extractor configurations
+extractor:
+  sift:
+    nfeatures: 0  # 0 = unlimited
+    nOctaveLayers: 3
+    contrastThreshold: 0.04
+    edgeThreshold: 10
+    sigma: 1.6
+  
+  orb:
+    nfeatures: 1000
+    scaleFactor: 1.2
+    nlevels: 8
+    edgeThreshold: 31
+  
+  superpoint:
+    max_keypoints: 1024
+    detection_threshold: 0.005
+
+# Matcher configurations
+matcher:
+  brute_force:
+    ratio_threshold: 0.75  # Lowe's ratio test
+    cross_check: true
+  
+  flann:
+    ratio_threshold: 0.75
+    trees: 5
+    checks: 50
+
+# Mapper configurations
+mapper:
+  homography:
+    ransac_threshold: 3.0
+    ransac_confidence: 0.995
+    ransac_max_iters: 2000
+    min_inlier_ratio: 0.2
+  
+  affine:
+    ransac_threshold: 3.0
+    ransac_confidence: 0.995
+    ransac_max_iters: 2000
+    min_inlier_ratio: 0.2
+
